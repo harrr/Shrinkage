@@ -1,0 +1,90 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             x:Class="ShrinkageExplorer.Wpf.Views.Admin.ModelParametersView" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+  <DockPanel>
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="Create new model"
+                Command="{Binding AddNewModelCommand}"/>
+      <MenuItem Header="Remove selected model"
+                InputGestureText=""
+                Command="ApplicationCommands.Delete"
+                CommandTarget="{Binding ElementName=ModelsGrid}"/>
+    </Menu>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="36*"/>
+        <RowDefinition Height="64*"/>
+      </Grid.RowDefinitions>
+      <DataGrid ColumnWidth="*"
+              Margin="3"
+              ItemsSource="{Binding Models}"
+              SelectedItem="{Binding SelectedModel, Mode=TwoWay}"
+              SelectionMode="Single"
+              x:Name="ModelsGrid">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Name"
+					Binding="{Binding Name}"/>
+          <DataGridTextColumn Header="Class name"
+					Binding="{Binding ClassName}"/>
+          <DataGridTextColumn Header="Average error"
+					Binding="{Binding AverageError}"/>
+        </DataGrid.Columns>
+      </DataGrid>
+      <Grid Grid.Row="1" Grid.RowSpan="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DataGrid ColumnWidth="*"
+				Margin="3"
+				ItemsSource="{Binding AvailableProperties}"
+				IsReadOnly="True"
+				x:Name="AvailablePropertiesGrid">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Short name"
+						Binding="{Binding ShortName}"/>
+            <DataGridTextColumn Header="Unit"
+						Binding="{Binding Unit}"/>
+          </DataGrid.Columns>
+        </DataGrid>
+        <UniformGrid Rows="2"
+				Grid.Column="1"
+				MinWidth="30"
+				VerticalAlignment="Center">
+          <Button Style="{StaticResource ButtonStyle}"
+					Command="{Binding AddPropertyCommand}"
+					CommandParameter="{Binding SelectedItems, ElementName=AvailablePropertiesGrid}">
+            <Image Source="/Icons/right_round-26.png"
+						Width="26"
+						Height="26"/>
+          </Button>
+          <Button Style="{StaticResource ButtonStyle}"
+					Command="{Binding RemovePropertyCommand}"
+					CommandParameter="{Binding SelectedItems, ElementName=RequiredPropertiesGrid}">
+            <Image Source="/Icons/left_round-26.png"
+						Width="26"
+						Height="26"/>
+          </Button>
+        </UniformGrid>
+        <DataGrid ColumnWidth="*"
+				Margin="3"
+				Grid.Column="2"
+				ItemsSource="{Binding SelectedModelProperties}"
+				x:Name="RequiredPropertiesGrid"
+				IsReadOnly="True">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Short name"
+						Binding="{Binding ShortName}"/>
+            <DataGridTextColumn Header="Unit"
+						Binding="{Binding Unit}"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </Grid>
+    </Grid>
+  </DockPanel>
+</UserControl>

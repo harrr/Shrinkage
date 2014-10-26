@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="ShrinkageExplorer.Wpf.Views.Admin.MaterialParametersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+  <DockPanel LastChildFill="True">
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="Create new material"
+                Command="{Binding AddNewMaterialCommand}"/>
+      <MenuItem Header="Remove selected material"
+                InputGestureText=""
+                Command="ApplicationCommands.Delete"
+                CommandTarget="{Binding ElementName=MaterialsGrid}"/>
+    </Menu>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="38*"/>
+        <RowDefinition Height="62*"/>
+      </Grid.RowDefinitions>
+      <DataGrid ColumnWidth="*"
+              Margin="3"
+              ItemsSource="{Binding Materials}"
+              SelectedItem="{Binding SelectedMaterial, Mode=TwoWay}"
+              SelectionMode="Single"
+              x:Name="MaterialsGrid">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Name"
+                            Binding="{Binding Name}"/>
+          <DataGridTextColumn Header="Description"
+                            Binding="{Binding Description}"/>
+        </DataGrid.Columns>
+      </DataGrid>
+      <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DataGrid ColumnWidth="*"
+                Margin="3"
+                ItemsSource="{Binding AvailableProperties}"
+                IsReadOnly="True"
+                x:Name="AvailablePropertiesGrid">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Short name"
+                              Binding="{Binding ShortName}"/>
+            <DataGridTextColumn Header="Unit"
+                              Binding="{Binding Unit}"/>
+          </DataGrid.Columns>
+        </DataGrid>
+        <UniformGrid Rows="2"
+                   Grid.Column="1"
+                   MinWidth="30"
+                   VerticalAlignment="Center">
+          <Button Style="{StaticResource ButtonStyle}"
+                Command="{Binding AddPropertyCommand}"
+                CommandParameter="{Binding ElementName=AvailablePropertiesGrid, Path=SelectedItems}">
+            <Button.Content>
+              <Image Source="/Icons/right_round-26.png"
+                   Width="26"
+                   Height="26"/>
+            </Button.Content>
+          </Button>
+          <Button Style="{StaticResource ButtonStyle}"
+                Command="{Binding RemovePropertyCommand}"
+                CommandParameter="{Binding ElementName=RequiredPropertiesGrid, Path=SelectedItems}">
+            <Button.Content>
+              <Image Source="/Icons/left_round-26.png"
+                   Width="26"
+                   Height="26"/>
+            </Button.Content>
+          </Button>
+        </UniformGrid>
+        <DataGrid ColumnWidth="*"
+                Margin="5,6,1,0"
+                Grid.Column="2"
+                ItemsSource="{Binding SelectedMaterialProperties}"
+                x:Name="RequiredPropertiesGrid"
+              >
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Short name"
+                              Binding="{Binding ShortName}"
+                              IsReadOnly="True"/>
+            <DataGridTextColumn Header="Value"
+                              Binding="{Binding Value}"/>
+            <DataGridTextColumn Header="Unit"
+                              Binding="{Binding Unit}"
+                              IsReadOnly="True"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </Grid>
+    </Grid>
+  </DockPanel>
+</UserControl>

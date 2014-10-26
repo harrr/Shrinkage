@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище ShrinkageModel" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="Хранилище ShrinkageModelContainer">
+          <EntitySet Name="Drives" EntityType="Хранилище ShrinkageModel.Drives" store:Type="Tables" />
+          <EntitySet Name="Lines" EntityType="Хранилище ShrinkageModel.Lines" store:Type="Tables" />
+          <EntitySet Name="MaterialParameters" EntityType="Хранилище ShrinkageModel.MaterialParameters" store:Type="Tables" />
+          <EntitySet Name="Materials" EntityType="Хранилище ShrinkageModel.Materials" store:Type="Tables" />
+          <EntitySet Name="ModelParameters" EntityType="Хранилище ShrinkageModel.ModelParameters" store:Type="Tables" />
+          <EntitySet Name="Models" EntityType="Хранилище ShrinkageModel.Models" store:Type="Tables" />
+          <EntitySet Name="Parameters" EntityType="Хранилище ShrinkageModel.Parameters" store:Type="Tables" />
+          <EntitySet Name="Rolls" EntityType="Хранилище ShrinkageModel.Rolls" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Хранилище ShrinkageModel.Users" store:Type="Tables" />
+          <AssociationSet Name="DriveAndLine" Association="Хранилище ShrinkageModel.DriveAndLine">
+            <End Role="Lines" EntitySet="Lines" />
+            <End Role="Drives" EntitySet="Drives" />
+          </AssociationSet>
+          <AssociationSet Name="Material_MaterialParameter" Association="Хранилище ShrinkageModel.Material_MaterialParameter">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="MaterialParameters" EntitySet="MaterialParameters" />
+          </AssociationSet>
+          <AssociationSet Name="ModelParameters1" Association="Хранилище ShrinkageModel.ModelParameters1">
+            <End Role="Models" EntitySet="Models" />
+            <End Role="ModelParameters" EntitySet="ModelParameters" />
+          </AssociationSet>
+          <AssociationSet Name="Parameter_MaterialParameter" Association="Хранилище ShrinkageModel.Parameter_MaterialParameter">
+            <End Role="Parameters" EntitySet="Parameters" />
+            <End Role="MaterialParameters" EntitySet="MaterialParameters" />
+          </AssociationSet>
+          <AssociationSet Name="Parameters_ModelParameters" Association="Хранилище ShrinkageModel.Parameters_ModelParameters">
+            <End Role="Parameters" EntitySet="Parameters" />
+            <End Role="ModelParameters" EntitySet="ModelParameters" />
+          </AssociationSet>
+          <AssociationSet Name="RollAndDrive" Association="Хранилище ShrinkageModel.RollAndDrive">
+            <End Role="Drives" EntitySet="Drives" />
+            <End Role="Rolls" EntitySet="Rolls" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Drives">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Velocity" Type="real" Nullable="false" />
+          <Property Name="Temperature" Type="real" Nullable="false" />
+          <Property Name="LineId" Type="int" />
+          <Property Name="MinVelocity" Type="real" Nullable="false" />
+          <Property Name="MaxVelocity" Type="real" Nullable="false" />
+          <Property Name="MinTemperature" Type="real" Nullable="false" />
+          <Property Name="MaxTemperature" Type="real" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lines">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="AirTemperature" Type="real" Nullable="false" />
+          <Property Name="AirCoefficient" Type="real" Nullable="false" />
+          <Property Name="RollCoefficient" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaterialParameters">
+          <Key>
+            <PropertyRef Name="ParameterID" />
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="ParameterID" Type="int" Nullable="false" />
+          <Property Name="MaterialID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Materials">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="ModelParameters">
+          <Key>
+            <PropertyRef Name="ModelID" />
+            <PropertyRef Name="ParameterID" />
+          </Key>
+          <Property Name="ModelID" Type="int" Nullable="false" />
+          <Property Name="ParameterID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Models">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ClassName" Type="ntext" />
+          <Property Name="AvgError" Type="real" />
+        </EntityType>
+        <EntityType Name="Parameters">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShortName" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Rolls">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="X" Type="real" Nullable="false" />
+          <Property Name="Y" Type="real" Nullable="false" />
+          <Property Name="Radius" Type="real" Nullable="false" />
+          <Property Name="Clockwise" Type="bit" Nullable="false" />
+          <Property Name="DriveId" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="isAdmin" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="DriveAndLine">
+          <End Role="Lines" Type="Хранилище ShrinkageModel.Lines" Multiplicity="0..1" />
+          <End Role="Drives" Type="Хранилище ShrinkageModel.Drives" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lines">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Drives">
+              <PropertyRef Name="LineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Material_MaterialParameter">
+          <End Role="Materials" Type="Хранилище ShrinkageModel.Materials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MaterialParameters" Type="Хранилище ShrinkageModel.MaterialParameters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialParameters">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ModelParameters1">
+          <End Role="Models" Type="Хранилище ShrinkageModel.Models" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ModelParameters" Type="Хранилище ShrinkageModel.ModelParameters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Models">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ModelParameters">
+              <PropertyRef Name="ModelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Parameter_MaterialParameter">
+          <End Role="Parameters" Type="Хранилище ShrinkageModel.Parameters" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MaterialParameters" Type="Хранилище ShrinkageModel.MaterialParameters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parameters">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialParameters">
+              <PropertyRef Name="ParameterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Parameters_ModelParameters">
+          <End Role="Parameters" Type="Хранилище ShrinkageModel.Parameters" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ModelParameters" Type="Хранилище ShrinkageModel.ModelParameters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parameters">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ModelParameters">
+              <PropertyRef Name="ParameterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RollAndDrive">
+          <End Role="Drives" Type="Хранилище ShrinkageModel.Drives" Multiplicity="0..1" />
+          <End Role="Rolls" Type="Хранилище ShrinkageModel.Rolls" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drives">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rolls">
+              <PropertyRef Name="DriveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ShrinkageModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ShrinkageEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Drives" EntityType="ShrinkageModel.Drive" />
+          <EntitySet Name="Lines" EntityType="ShrinkageModel.Line" />
+          <EntitySet Name="Rolls" EntityType="ShrinkageModel.Roll" />
+          <AssociationSet Name="DriveAndLine" Association="ShrinkageModel.DriveAndLine">
+            <End Role="Lines" EntitySet="Lines" />
+            <End Role="Drives" EntitySet="Drives" />
+          </AssociationSet>
+          <AssociationSet Name="RollAndDrive" Association="ShrinkageModel.RollAndDrive">
+            <End Role="Drives" EntitySet="Drives" />
+            <End Role="Rolls" EntitySet="Rolls" />
+          </AssociationSet>
+          <EntitySet Name="MaterialParameters" EntityType="ShrinkageModel.MaterialParameter" />
+          <EntitySet Name="Materials" EntityType="ShrinkageModel.Material" />
+          <EntitySet Name="Models" EntityType="ShrinkageModel.Model" />
+          <EntitySet Name="Parameters" EntityType="ShrinkageModel.Parameter" />
+          <EntitySet Name="Users" EntityType="ShrinkageModel.User" />
+          <AssociationSet Name="MaterialsMaterialParameters" Association="ShrinkageModel.MaterialsMaterialParameters">
+            <End Role="Material" EntitySet="Materials" />
+            <End Role="MaterialParameter" EntitySet="MaterialParameters" />
+          </AssociationSet>
+          <AssociationSet Name="ParametersMaterialParameters" Association="ShrinkageModel.ParametersMaterialParameters">
+            <End Role="Parameter" EntitySet="Parameters" />
+            <End Role="MaterialParameter" EntitySet="MaterialParameters" />
+          </AssociationSet>
+          <AssociationSet Name="ModelParameters1" Association="ShrinkageModel.ModelParameters">
+            <End Role="Model" EntitySet="Models" />
+            <End Role="Parameter" EntitySet="Parameters" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Drive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Velocity" Type="Single" Nullable="false" />
+          <Property Name="Temperature" Type="Single" Nullable="false" />
+          <Property Name="LineId" Type="Int32" />
+          <NavigationProperty Name="Line" Relationship="ShrinkageModel.DriveAndLine" FromRole="Drives" ToRole="Lines" />
+          <NavigationProperty Name="Rolls" Relationship="ShrinkageModel.RollAndDrive" FromRole="Drives" ToRole="Rolls" />
+          <Property Type="Single" Name="MinVelocity" Nullable="false" />
+          <Property Type="Single" Name="MaxVelocity" Nullable="false" />
+          <Property Type="Single" Name="MinTemperature" Nullable="false" />
+          <Property Type="Single" Name="MaxTemperature" Nullable="false" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Line">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="AirTemperature" Type="Single" Nullable="false" />
+          <Property Name="AirCoefficient" Type="Single" Nullable="false" />
+          <Property Name="RollCoefficient" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Drives" Relationship="ShrinkageModel.DriveAndLine" FromRole="Lines" ToRole="Drives" />
+        </EntityType>
+        <EntityType Name="Roll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="X" Type="Single" Nullable="false" />
+          <Property Name="Y" Type="Single" Nullable="false" />
+          <Property Name="Radius" Type="Single" Nullable="false" />
+          <Property Name="Clockwise" Type="Boolean" Nullable="false" />
+          <Property Name="DriveId" Type="Int32" />
+          <NavigationProperty Name="Drive" Relationship="ShrinkageModel.RollAndDrive" FromRole="Rolls" ToRole="Drives" />
+        </EntityType>
+        <Association Name="DriveAndLine">
+          <End Role="Lines" Type="ShrinkageModel.Line" Multiplicity="0..1" />
+          <End Role="Drives" Type="ShrinkageModel.Drive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lines">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Drives">
+              <PropertyRef Name="LineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RollAndDrive">
+          <End Role="Drives" Type="ShrinkageModel.Drive" Multiplicity="0..1" />
+          <End Role="Rolls" Type="ShrinkageModel.Roll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drives">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rolls">
+              <PropertyRef Name="DriveId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MaterialParameter">
+          <Key>
+            <PropertyRef Name="ParameterID" />
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Type="Int32" Name="ParameterID" Nullable="false" />
+          <Property Type="Int32" Name="MaterialID" Nullable="false" />
+          <Property Type="String" Name="Value" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Material" Relationship="ShrinkageModel.MaterialsMaterialParameters" FromRole="MaterialParameter" ToRole="Material" />
+          <NavigationProperty Name="Parameter" Relationship="ShrinkageModel.ParametersMaterialParameters" FromRole="MaterialParameter" ToRole="Parameter" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MaterialParameters" Relationship="ShrinkageModel.MaterialsMaterialParameters" FromRole="Material" ToRole="MaterialParameter" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ClassName" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Single" Name="AvgError" />
+          <NavigationProperty Name="Parameters" Relationship="ShrinkageModel.ModelParameters" FromRole="Model" ToRole="Parameter" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShortName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Unit" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MaterialParameters" Relationship="ShrinkageModel.ParametersMaterialParameters" FromRole="Parameter" ToRole="MaterialParameter" />
+          <NavigationProperty Name="Models" Relationship="ShrinkageModel.ModelParameters" FromRole="Parameter" ToRole="Model" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="isAdmin" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="MaterialsMaterialParameters">
+          <End Type="ShrinkageModel.Material" Role="Material" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ShrinkageModel.MaterialParameter" Role="MaterialParameter" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialParameter">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ParametersMaterialParameters">
+          <End Type="ShrinkageModel.Parameter" Role="Parameter" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ShrinkageModel.MaterialParameter" Role="MaterialParameter" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Parameter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MaterialParameter">
+              <PropertyRef Name="ParameterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ModelParameters">
+          <End Type="ShrinkageModel.Model" Role="Model" Multiplicity="*" >
+          </End>
+          <End Type="ShrinkageModel.Parameter" Role="Parameter" Multiplicity="*" >
+          </End>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ShrinkageModelContainer" CdmEntityContainer="ShrinkageEntities">
+          <EntitySetMapping Name="Drives">
+            <EntityTypeMapping TypeName="ShrinkageModel.Drive">
+              <MappingFragment StoreEntitySet="Drives">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="MaxTemperature" ColumnName="MaxTemperature" />
+                <ScalarProperty Name="MinTemperature" ColumnName="MinTemperature" />
+                <ScalarProperty Name="MaxVelocity" ColumnName="MaxVelocity" />
+                <ScalarProperty Name="MinVelocity" ColumnName="MinVelocity" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Velocity" ColumnName="Velocity" />
+                <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lines">
+            <EntityTypeMapping TypeName="ShrinkageModel.Line">
+              <MappingFragment StoreEntitySet="Lines">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AirTemperature" ColumnName="AirTemperature" />
+                <ScalarProperty Name="AirCoefficient" ColumnName="AirCoefficient" />
+                <ScalarProperty Name="RollCoefficient" ColumnName="RollCoefficient" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rolls">
+            <EntityTypeMapping TypeName="ShrinkageModel.Roll">
+              <MappingFragment StoreEntitySet="Rolls">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="X" ColumnName="X" />
+                <ScalarProperty Name="Y" ColumnName="Y" />
+                <ScalarProperty Name="Radius" ColumnName="Radius" />
+                <ScalarProperty Name="Clockwise" ColumnName="Clockwise" />
+                <ScalarProperty Name="DriveId" ColumnName="DriveId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialParameters">
+            <EntityTypeMapping TypeName="ShrinkageModel.MaterialParameter">
+              <MappingFragment StoreEntitySet="MaterialParameters">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="ParameterID" ColumnName="ParameterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materials">
+            <EntityTypeMapping TypeName="ShrinkageModel.Material">
+              <MappingFragment StoreEntitySet="Materials">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Models">
+            <EntityTypeMapping TypeName="ShrinkageModel.Model">
+              <MappingFragment StoreEntitySet="Models">
+                <ScalarProperty Name="AvgError" ColumnName="AvgError" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parameters">
+            <EntityTypeMapping TypeName="ShrinkageModel.Parameter">
+              <MappingFragment StoreEntitySet="Parameters">
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ShrinkageModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ModelParameters1" TypeName="ShrinkageModel.ModelParameters" StoreEntitySet="ModelParameters">
+            <EndProperty Name="Parameter">
+              <ScalarProperty Name="ID" ColumnName="ParameterID" />
+            </EndProperty>
+            <EndProperty Name="Model">
+              <ScalarProperty Name="ID" ColumnName="ModelID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

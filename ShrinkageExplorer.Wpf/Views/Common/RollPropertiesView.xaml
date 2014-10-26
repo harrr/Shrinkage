@@ -1,0 +1,166 @@
+﻿<Window x:Class="ShrinkageExplorer.Wpf.Views.Common.RollPropertiesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore"
+        Width="300"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource FadeWindowStyle}">
+
+  <StackPanel>
+    <GroupBox Header="Roll parameters"
+              Margin="3">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="X, cm" 
+                   Grid.Row="0"
+                   HorizontalAlignment="Right"
+                   Margin="3"
+                   VerticalAlignment="Center"/>
+        <TextBox Text="{Binding X, Mode=TwoWay, StringFormat={}{0:N2}}"
+                 Grid.Column="1"
+                 Grid.Row="0"
+                 Margin="3"
+                 HorizontalContentAlignment="Center"/>
+        <TextBlock Text="Y, cm" 
+                   Grid.Row="1"
+                   HorizontalAlignment="Right"
+                   Margin="3"
+                   VerticalAlignment="Center"/>
+        <TextBox Text="{Binding Y, Mode=TwoWay, StringFormat={}{0:N2}}"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Margin="3"
+                 HorizontalContentAlignment="Center"/>
+        <TextBlock Text="Radius, cm"
+                   Grid.Row="2"
+                   HorizontalAlignment="Right"
+                   Margin="3"
+                   VerticalAlignment="Center"/>
+        <TextBox Text="{Binding Radius, Mode=TwoWay, StringFormat={}{0:N2}}"
+                 Grid.Row="2"
+                 Grid.Column="1"
+                 Margin="3"
+                 HorizontalContentAlignment="Center"/>
+        <CheckBox Content="Rotates clockwise"
+                  IsChecked="{Binding Path=ClockwiseRotation}"
+                  Grid.ColumnSpan="2"
+                  Grid.Row="3"
+                  HorizontalAlignment="Center"
+                  Margin="3"/>
+      </Grid>
+    </GroupBox>
+    <GroupBox Header="Drive parameters"
+              Margin="3"
+              DataContext="{Binding Drive}">
+      <GroupBox.HeaderTemplate>
+        <DataTemplate>
+          <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="{Binding}" 
+                       Style="{StaticResource RightTextBlockStyle}"/>
+            <Button Grid.Column="2"
+                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Path=DataContext.EditPropertiesCommand }"
+                    Style="{StaticResource ButtonStyle}"
+                    Margin="10,3,3,3">
+              <Image Source="/Icons/edit-26.png"
+                     Height="16"/>
+              <Button.ToolTip>
+                <ToolTip Content="Edit drive settings"/>
+              </Button.ToolTip>
+            </Button>
+          </Grid>
+        </DataTemplate>
+      </GroupBox.HeaderTemplate>
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Temperature, ℃" 
+                   Grid.Row="0"
+                   Style="{StaticResource CenteredTextBlockStyle}"/>
+        <Grid Grid.Column="0"
+              Grid.Row="1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding MinTemperature, Mode=TwoWay, StringFormat=N0}"
+                   Grid.Column="0"
+                   Style="{StaticResource CenteredTextBlockStyle}"/>
+          <StackPanel Grid.Column="1">
+            <TextBlock Text="{Binding Temperature, StringFormat=N0}"
+                       Style="{StaticResource CenteredTextBlockStyle}"/>
+            <Slider Maximum="{Binding MaxTemperature}"
+                  Minimum="{Binding MinTemperature}"
+                  Value="{Binding Temperature}"
+                  VerticalAlignment="Center"/>
+          </StackPanel>
+          <TextBlock Text="{Binding MaxTemperature, Mode=TwoWay, StringFormat=N0}"
+                   Grid.Column="2"
+                   Style="{StaticResource CenteredTextBlockStyle}"/>
+        </Grid>
+        <TextBlock Text="Velocity, m/min" 
+                   Grid.Row="0"
+                   Grid.Column="1"
+                   Style="{StaticResource CenteredTextBlockStyle}"/>
+        <Grid Grid.Column="1"
+              Grid.Row="1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding MinVelocity, Mode=TwoWay, StringFormat=N1}"
+                   Grid.Column="0"
+                   Style="{StaticResource CenteredTextBlockStyle}"/>
+          <StackPanel Grid.Column="1">
+            <TextBlock Text="{Binding Velocity, StringFormat=N1}"
+                       Style="{StaticResource CenteredTextBlockStyle}"/>
+            <Slider Maximum="{Binding MaxVelocity}"
+                    Minimum="{Binding MinVelocity}"
+                    Value="{Binding Velocity}"
+                    VerticalAlignment="Center"
+                    TickFrequency="0.1"/>
+          </StackPanel>
+          <TextBlock Text="{Binding MaxVelocity, Mode=TwoWay, StringFormat=N1}"
+                   Grid.Column="2"
+                   Style="{StaticResource CenteredTextBlockStyle}"/>
+        </Grid>
+      </Grid>
+    </GroupBox>
+    <UniformGrid Columns="2">
+      <Button Content="OK"
+              IsDefault="True"
+              Click="Ok_Click"
+              Margin="3"
+              Padding="5"/>
+      <Button Content="Cancel"
+              IsCancel="True"
+              Margin="3"
+              Padding="5"/>
+    </UniformGrid>
+  </StackPanel>
+</Window>

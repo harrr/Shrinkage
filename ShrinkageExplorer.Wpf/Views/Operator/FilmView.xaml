@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="ShrinkageExplorer.Wpf.Views.Operator.FilmView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+
+    <UniformGrid Columns="3"
+                 Rows="2">
+      <TextBlock Text="Initial width, m"
+                 Style="{StaticResource CenteredTextBlockStyle}"/>
+      <TextBlock Text="Initial thickness, m"
+                 Style="{StaticResource CenteredTextBlockStyle}"/>
+      <TextBlock Text="Initial temperature, ℃"
+                 Style="{StaticResource CenteredTextBlockStyle}"/>
+      <TextBox Text="{Binding Width}"
+               Style="{StaticResource TextBoxStyle}"/>
+      <TextBox Text="{Binding Thickness}"
+               Style="{StaticResource TextBoxStyle}"/>
+      <TextBox Text="{Binding Temperature}"
+               Style="{StaticResource TextBoxStyle}"/>
+    </UniformGrid>
+    <DataGrid Grid.Row="1"
+              AutoGenerateColumns="False"
+              ColumnWidth="*"
+              Margin="3"
+              ItemsSource="{Binding Material.Properties}"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              Foreground="Black">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Parameter name"
+                            Binding="{Binding ShortName}"
+                            IsReadOnly="True"/>
+        <DataGridTextColumn Header="Value"
+                            Binding="{Binding Value}"/>
+        <DataGridTextColumn Header="Measure unit"
+                            IsReadOnly="True"
+                            Binding="{Binding Unit}"/>
+      </DataGrid.Columns>
+    </DataGrid>
+
+  </Grid>
+</UserControl>

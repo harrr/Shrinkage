@@ -1,0 +1,96 @@
+﻿<Canvas x:Class="ShrinkageExplorer.Wpf.Views.Common.RollLineGraphicalView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:common="clr-namespace:ShrinkageExplorer.Wpf.Views.Common"
+        xmlns:vm1="clr-namespace:ShrinkageExplorer.Wpf.ViewModels.Common"
+        mc:Ignorable="d ignore"
+        Width="{Binding LineWidth}"
+        Height="{Binding LineHeight}"
+        Name="LineCanvas"
+        HorizontalAlignment="Stretch">
+  <Canvas.ContextMenu>
+    <ContextMenu>
+      <MenuItem Header="Add new drive"
+                Command="{Binding AttachDriveCommand}"/>
+    </ContextMenu>
+  </Canvas.ContextMenu>
+  <Canvas.Resources>
+    <DataTemplate DataType="{x:Type vm1:RollViewModel}"
+                  x:Key="RollTemplate">
+      <Canvas>
+        <Line X1="{Binding Path=X}"
+              X2="{Binding Path=X}"
+              Y1="{Binding Path=Y}"
+              Y2="0"
+              StrokeThickness="2"
+              Stroke="Brown"/>
+        <common:RollView Roll="{Binding}"
+                       Tag="{Binding ElementName=LineCanvas, Path=DataContext}">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <i:InvokeCommandAction Command="{Binding EditPropertiesCommand}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+          <common:RollView.ContextMenu>
+            <ContextMenu>
+              <MenuItem Header="Remove from line"
+                      Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.Tag.RemoveRollCommand}"
+                      CommandParameter="{Binding}"/>
+              <MenuItem Header="Properties"
+                        Command="{Binding EditPropertiesCommand}"/>
+            </ContextMenu>
+          </common:RollView.ContextMenu>
+        </common:RollView>
+      </Canvas>
+    </DataTemplate>
+    <DataTemplate x:Key="DriveTemplate">
+      <Canvas HorizontalAlignment="Stretch">
+        <ItemsControl ItemsSource="{Binding Rolls}"
+                      ItemTemplate="{StaticResource RollTemplate}"/>
+        <UserControl Tag="{Binding ElementName=LineCanvas, Path=DataContext}">
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+              <i:InvokeCommandAction Command="{Binding EditPropertiesCommand}"/>
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+          <Line X1="{Binding Path=Left}"
+                X2="{Binding Path=Right}"
+                Y1="0"
+                Y2="0"
+                StrokeThickness="6"
+                Stroke="Brown"
+                x:Name="DriveLine">
+            <Line.Style>
+              <Style TargetType="Line">
+                <Style.Triggers>
+                  <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Stroke"
+                            Value="DodgerBlue"></Setter>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </Line.Style>
+          </Line>
+          <UserControl.ContextMenu>
+            <ContextMenu>
+              <MenuItem Header="Attach new roll"
+                        Command="{Binding AttachRollCommand}"/>
+              <MenuItem Header="Remove from line"
+                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.Tag.RemoveDriveCommand}"
+                        CommandParameter="{Binding}"/>
+              <MenuItem Header="Properties"
+                        Command="{Binding EditPropertiesCommand}"/>
+            </ContextMenu>
+          </UserControl.ContextMenu>
+        </UserControl>
+
+      </Canvas>
+    </DataTemplate>
+  </Canvas.Resources>
+  <ItemsControl ItemsSource="{Binding Drives}"
+                ItemTemplate="{StaticResource DriveTemplate}"/>
+</Canvas>
